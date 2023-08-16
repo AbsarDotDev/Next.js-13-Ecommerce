@@ -1,42 +1,45 @@
-'use client'
-import React from "react";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import useSWR from 'swr'
+import React from 'react';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
+import { cookies } from 'next/headers';
 
-interface CartPopOverProps {
-  cookies: string;
+const getCartItemsLength = async () => {
+  try {
+      const user_id = cookies().get("user_id");
+console.log(user_id)
+      const res = await fetch(`http://localhost:3000/api/cart?user_id=${user_id?.value}`, {
+          method: "GET",
+          cache:"no-store",
+          headers: {
+              "Content-Type": "application/json",
+              "user_id":`${user_id?.value as string}`
+
+          },          
+      }
+      );
+      if (!res.ok) {
+          throw new Error("Failed to fetch the data")
+      };
+      const result = await res.json()
+      return result.length
+  } catch (err) {
+      console.log(err)
+  }
 }
 
-const CartPopOver = ({ cookies }: CartPopOverProps) => {
-  const url = 'http://localhost:3000/api/cart';
-  const fetcher:any = (url: any) => fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      "user_id": `${cookies}`,
-    },
-  }).then((res) => res.json());
-
-  const { data, error, isValidating } = useSWR(url, fetcher);
-
-  if (error) {
-    return <div>Failed to load cart data</div>;
-  }
-
-  const cartItemsLength = data ? data.length : 0;
+const CartPopOver = async () => {
 
   return (
-    <Link href={`/cart?user_id=${cookies}`} id="cart" className="flex items-center text-blue-500">
-      <FontAwesomeIcon
-        icon={faCartShopping}
-        className="w-6"
-        style={{ color: "#ee245f" }}
-      />
-      <span className="mt-[-20px] bg-primary-pink text-white rounded-full px-[8px] py-[2px]">
-        {isValidating ? "0" : cartItemsLength}
-      </span>
-    </Link>
+    <div className="relative">
+          <span className=" mt-[-20px] ml-3 bg-primary-pink text-white rounded-full px-[8px] py-[2px]">{await getCartItemsLength()}</span>
+
+      <Link href="/cart">
+      <FontAwesomeIcon icon={faCartShopping} className='w-6' style={{"color": "#ee245f"}}/>
+      </Link>
+
+    </div>
+
   );
 };
 

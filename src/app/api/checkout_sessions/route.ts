@@ -45,7 +45,6 @@ export const POST = async (request: NextRequest) => {
 const saveOrderDetails = async (alldata: any, cartItems: any[]) => {
   // Save the formData in the Orders table and retrieve the orderId
   const orderId: any = await saveOrder(alldata);
-  console.log(orderId);
 
   // Save the product details in the Order_Items table
   await saveOrderItems(orderId, cartItems);

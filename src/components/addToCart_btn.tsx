@@ -9,7 +9,7 @@ import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 interface ProductCardsProps {
   product: IProduct;
 }
-
+``
 
 export const AddToCartBtn = ({product}:ProductCardsProps) => {
   const router=useRouter();

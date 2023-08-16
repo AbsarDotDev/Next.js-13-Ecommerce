@@ -7,7 +7,6 @@ import { v4 as uuid } from "uuid";
 
 export const GET = async (request: NextRequest, {params}:{params:{id:string}}) => {
 
-  console.log(params.id)
   try {
     const res = await db
       .select()

@@ -1,17 +1,14 @@
+
 import 'flowbite';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { cookies } from 'next/headers';
-
-import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import CartPopOver from './cart_icon';
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 const Header = () => {
-  const user_id:string = cookies().get("user_id")?.value as string;
   return (
 
     <nav className="bg-white border-gray-200 font-medium">      
@@ -43,7 +40,7 @@ const Header = () => {
       <div className="lg:items-center flex md:order-2 gap-x-5 items-start">
       {/* @ts-ignore */}
 
-      <CartPopOver cookies={user_id}/>
+      <CartPopOver />
         {/* Mount the UserButton component */}
         <SignedIn>
         {/* Mount the UserButton component */}

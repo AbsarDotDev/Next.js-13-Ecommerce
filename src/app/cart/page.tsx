@@ -45,12 +45,12 @@ const getProductsById = async (data: Cart[]) => {
 const getProductData = async () => {
   try {
     const user_id = cookies().get("user_id");
-    console.log(user_id?.value)
     const res = await fetch(
-      `http://localhost:3000/api/cart`,
+      "http://localhost:3000/api/cart",
       {
         method: "GET",
-        cache: "no-store",
+        cache:"no-store",
+    
         headers: {
           "Content-Type": "application/json",
           "user_id":`${user_id?.value as string}`
@@ -78,10 +78,8 @@ const getCartTotal = (cart: Cart[], products: StripeProducts[]) => {
 };
 const Cart = async () => {
   const data: Cart[] = await getProductData();
-  console.log(data)
   const result:StripeProducts[] = await getProductsById(data);
 
-console.log(result)
   return (
     <div className=" max-h-max">
     <Header/>
